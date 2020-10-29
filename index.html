@@ -1,0 +1,252 @@
+<!--
+Author : LIM SZE SAN (100065180)
+Custom Web Application For COS30043 Interface Design and Development 
+-->
+<!DOCTYPE html>
+<html data-ng-app = 'myApp' lang="en">
+<head>
+<title>LSS-SnackBox</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="snackbox">
+<meta name="keywords" content="snackbox,LSS,junkfood">
+<meta name="author" content="Shereen">
+<!-- Bootstrap -->
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<!-- toastmessage CSS --> 
+<link href="css/toaster.css" rel="stylesheet" />
+<link href="css/jquery-ui.css" rel="stylesheet" />
+<link href="css/simple-sidebar.css" rel="stylesheet">
+<!-- Custom CSS -->
+<link href="css/style.css" rel="stylesheet" />
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="js/html5shiv.js"></script>
+<script src="js/respond.min.js"></script>
+<![endif]-->
+</head>
+<body>
+    <div id="fb-root"></div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container" data-ng-controller="myCtrl">
+            <div class="row">
+                <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#"><img src="img/lsslogo.png" alt="LSS" class="img-custome-style"></a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#home"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                            <li><a href="#about"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
+                            <li><a href="#product"><span class="glyphicon glyphicon-modal-window"></span> SnackBox</a></li>
+                            <li><a href="#contact"><span class="glyphicon glyphicon-phone-alt"></span> Contact</a></li>
+                        </ul>
+                        
+                        <ul data-ng-hide="loggedIn" class="nav navbar-nav navbar-right">
+                            <li><a href="" data-toggle="modal" data-target="#mySignUpModal">
+                                    <span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                            <li><a href="" data-toggle="modal" data-target="#mySignInModal">
+                                    <span class="glyphicon glyphicon-log-in"></span> Sign In</a></li>
+                        </ul>
+                        <!-- Member Login [Username] |My Bag| Logout Or Admin Login [Admin] | Logout-->
+                        <span data-ng-if="loggedIn">
+                            <span data-ng-show="loggedIn == 'ADMIN'">
+                              <ul class="nav navbar-nav navbar-right">
+                                    <li><a href="#myaccount"><span class="glyphicon glyphicon-user"></span>{{loggedIn}}</a></li>
+                                    <li><a href="" data-ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+                                </ul>
+                            </span>
+                            <span data-ng-hide="loggedIn == 'ADMIN'">
+                               <ul class="nav navbar-nav navbar-right">
+                                    <li><a href="#myaccount" data-ng-click="acc()"><span class="glyphicon glyphicon-user"></span>{{loggedIn}}</a></li>
+                                    <li><a href="#myaccount" data-ng-click="cart()"><span class="glyphicon glyphicon-shopping-cart"></span> My Cart</a></li>
+                                    <li><a href="#" data-ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+                                </ul>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- End Navigation -->
+    <!-- Header -->
+<!--
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class = "col-md-12 col-xs-12 jumbotron">
+                    <h1>All about LSS</h1>
+                    <img class="img-responsive" src="img/banner.jpg" alt="">
+                    <br />
+                    <p>
+                        <a href="#about" class="btn btn-primary btn-lg pull-right" role="button">More Info</a> 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header>
+-->
+    <!-- End Header -->
+    <!-- Content -->
+    <div class="page {{ pageClass }}"data-ng-view></div>
+    
+    <toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
+    <div class="container">
+        <!-- Login Modal -->
+        <div class="modal" id="mySignInModal" role="dialog" data-ng-controller="SigninCtrl">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h1 class="text-center">Sign In</h1>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        <div class="col-md-12">
+                        <form name="LoginForm" class="form col-md-12 col-sm-12 center-block">
+                            <div class="form-group">
+                                <label class="hide" for="email">Email</label>
+                                <input type="text" class="form-control input-lg" placeholder="Username or email address"
+                                       data-ng-model="email" id = "email" required/>
+                            </div>
+                            <div class="form-group">
+                                <label  class="hide" for="password">Passwrord</label>
+                                <input type="password" class="form-control input-lg" placeholder="Password" id = "password"
+                                       data-ng-model="pass" maxlength = "20" required/>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-lg btn-block" 
+                                        data-ng-click="checkLogin(email,pass)" 
+                                        data-ng-disabled="LoginForm.$invalid">LogIn</button>
+                            </div>
+                            <div class="form-group">
+                                <div class="alert alert-danger" role="alert" data-ng-show="msg" data-ng-bind="msg"></div>
+                                <span class="pull-right"><a href="#" data-dismiss="modal" aria-hidden="true" data-toggle="modal" data-target="#mySignUpModal">Sign Up</a></span>
+                                <span><a href="">Forgot your Password?</a></span>
+                            </div>
+                        </form>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Sign Up Modal -->
+        <div class="modal" id="mySignUpModal" role="dialog" data-ng-controller="SignUpCtrl">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h1 class="text-center">Sign Up</h1>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        <div class="col-md-12">
+                            <form name="SignUpForm" id="SignUpForm" class="form col-md-12 center-block" novalidate="novalidate">
+                                <div class="form-group">
+                                    <label class="hide" for="emailUp">Email</label>
+                                    <input type="email" id="emailUp" name = "email" class = "form-control input-lg" 
+                                            data-ng-model = "email"  placeholder = "Your email address"
+                                            data-ng-model-options = "{ updateOn: 'blur' }" required />
+                                    <p class = "text-danger" data-ng-show = "SignUpForm.email.$error.required && SignUpForm.email.$dirty">This field is a required.</p>
+                                    <p class = "text-danger" data-ng-show = "!SignUpForm.email.$error.required && SignUpForm.email.$invalid">Must be in email format.</p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="hide" for="username">Username</label>
+                                    <input type="text" id = "username" name = "username" class = "form-control input-lg" 
+                                           data-ng-model = "username" placeholder = "Pick a username" maxlength="12"
+                                           data-ng-minlength = "3" data-ng-model-options = "{ updateOn: 'blur' }" required/>
+                                    <p class="text-danger" data-ng-show = "SignUpForm.username.$error.minlength">Must be at least 3 characters.</p>
+                                    <p class="text-danger" data-ng-show = "SignUpForm.username.$dirty && SignUpForm.username.$error.required">This field is a required.</p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="hide" for="pass">Password</label>
+                                    <input type="password" id="pass" name = "pass" class="form-control input-lg" 
+                                           data-ng-model="pass" placeholder="Create a password" maxlength = "20"
+                                           data-ng-minlength="8" data-ng-pattern="/^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]/" required/>
+<!--                                       data-ng-model-options="{ updateOn: 'blur' }" -->
+                                    <p class="text-info">use at least one special character and eight character.</p>
+                                    <p class="text-danger" data-ng-show="SignUpForm.pass.$dirty && SignUpForm.pass.$error.required">This field is a required.</p>
+                                    <p class="text-danger" data-ng-show="SignUpForm.pass.$error.minlength">Must be at least 8 characters.</p>
+                                    <p class="text-danger" data-ng-show="!SignUpForm.pass.$error.minlength && SignUpForm.pass.$error.pattern">Must contain at least 1 special character(!, @, $, %, ^, &amp;, and *)</p>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6 col-xs-6">
+                                            <button type="submit" class="btn btn-primary btn-lg btn-block"
+                                                        data-ng-click="signup(email,pass,username)"
+                                                        data-ng-disabled="SignUpForm.$invalid">Sign Up</button>
+                                        </div>
+                                        <div class="col-md-6 col-xs-6">
+                                            <button class="btn btn-lg btn-block"
+                                                        data-ng-click="reset()">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="alert alert-danger addmargin" role="alert" data-ng-show="msg">{{msg}}</div>
+                                </div>
+                            </form>
+                         </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Content -->
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class = "col-md-12 col-xs-12">
+                    <p>{{msg}}</p>
+                    Copyright &copy; 2016 LSS
+                    <div class="pull-right text-center">
+                        <div class="fb-like" data-href="https://www.facebook.com/LSS3-221825517848820/?fref=ts" data-width="50" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+                        <p class="twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://twitter.com/#!/LimSzeSan">Tweet</a>
+                        </p>
+<!--
+                        <a href="http://www.facebook.com/pages/LSS3/221825517848820"><img src="images/facebookicon.gif" width="30" height="30" border="0"></a>
+                        <a href="http://twitter.com/#!/LimSzeSan"><img src="images/Twitter-icon.png" width="30" height="30" border="0"></a>
+                        <a href="http://lss3biz.blogspot.com/"><img src="images/blogspot_icon.png" width="30" height="30" border="0"></a>
+-->
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
+    <!-- jQuery – required for Bootstrap's JavaScript plugins) --> 
+    <script src="js/jquery.min.js"></script> 
+    <!-- All Bootstrap  plug-ins  file --> 
+    <script src="js/bootstrap.min.js"></script> 
+    <!-- Basic AngularJS --> 
+    <script src="js/angular.min.js"></script> 
+    <!-- AngularJS - Routing --> 
+    <script src="js/angular-route.min.js"></script>
+    <script src="js/angular-animate.min.js" ></script>
+    <script src="js/toaster.js"></script>
+    <script src="js/menutoggle.js"></script>
+    <script src="js/responsive-tabs.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/java.js"></script>
+    <script src="js/Chart.js"></script>
+    <!-- App Script --> 
+    <script src="app/app.js"></script>
+    <script src="app/acountCtrl.js"></script>
+    <script src="app/contactCtrl.js"></script>
+    <script src="app/productCtrl.js"></script>
+    <script src="app/dashboardCtrl.js"></script>
+</body>
+</html>

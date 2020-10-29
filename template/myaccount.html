@@ -1,0 +1,376 @@
+<!--
+Author : LIM SZE SAN (100065180)
+Custom Web Application For COS30043 Interface Design and Development 
+-->
+<section id="account">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2>My Account</h2>
+                <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row">
+			<div class="col-md-12 col-xs-12">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<ul class="nav nav-tabs responsive">
+							<li id="acc" class="active"><a data-toggle="tab" data-target="#Info">
+                                <span class="glyphicon glyphicon-user">
+                                <span class="small hidden-xs">Personal Information</span>
+                                </span>
+                            </a></li>
+                            <li id="pass"><a data-toggle="tab" data-target="#ChangPass">
+                                <span class ="glyphicon glyphicon-edit">
+                                    <span class="small hidden-xs">Change Password</span>
+                                </span>
+                                </a></li>
+							<li id="ord"><a data-toggle="tab" data-target="#Order">
+                                <span class ="glyphicon glyphicon-list-alt">
+                                    <span class="small hidden-xs">Orders History</span>
+                                </span>
+                            </a></li>
+							<li id="cart"><a data-toggle="tab" data-target="#MyBag">
+                                <span class ="glyphicon glyphicon-shopping-cart">
+                                    <span class="small hidden-xs">My Cart</span>
+                                </span>
+                                </a></li>
+						</ul>
+                        
+						<div class="tab-content responsive">
+							<div class="tab-pane fade in active" id="Info">
+                                <div class="row">
+                                <div class="col-md-12">
+                                <form name="ProfileForm" class="form col-md-12 col-sm-12 center-block">
+                                    <div class="form-group">
+                                        <label class="control-label" for="username" >Username</label>
+                                        <input type="text" id="username" name = "username" class="form-control" 
+                                               data-ng-model="loggedIn" disabled/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="fn" >First Name *</label>
+                                        <input type="text" id="fn" name = "firstname" class="form-control" 
+                                               data-ng-model="firstname" 
+                                               maxlength="40" 
+                                               data-ng-pattern="/^[a-zA-Z ]*$/"  
+                                               data-ng-model-options="{ updateOn: 'blur' }"
+                                               data-ng-disabled="!all" required />
+                                        <!--letters only-->
+                                        <p class="text-danger" data-ng-show="ProfileForm.firstname.$error.pattern">First name must be letters only.</p>
+                                        <!--required-->
+                                        <p class="text-danger" data-ng-show="ProfileForm.firstname.$dirty && ProfileForm.firstname.$error.required">This Informstion is a required.</p>
+                                    </div>
+                                    <!--lastname-->
+                                    <div class="form-group">
+                                        <label for="ln" class="control-label">Last Name *</label>
+                                        <input type="text" id="ln" name = "lastname" class="form-control" 
+                                               data-ng-model="lastname" 
+                                               maxlength="40" 
+                                               data-ng-pattern="/^[a-zA-Z ]*$/" 
+                                               data-ng-model-options="{updateOn: 'blur' }" 
+                                               data-ng-disabled="!all" required />
+                                        <!--letters only-->
+                                        <p class="text-danger" data-ng-show="ProfileForm.lastname.$error.pattern">Last name must be letters only.</p>
+                                        <!--required-->
+                                        <p class="text-danger" data-ng-show="ProfileForm.lastname.$dirty && ProfileForm.lastname.$error.required">This Informstion is a required.</p>
+                                    </div>
+                                    <!--Email-->
+                                    <div class="form-group">
+                                        <label for="email" class="control-label">Email Address</label>
+                                        <input type="email" id="email" name = "email" class="form-control" data-ng-model="email" disabled/>
+                                    </div>
+                                    <!--Mobile number-->
+                                    <div class="form-group">
+                                        <label for="mobile" class="control-label">Mobile number *</label>
+                                        <input type="text" id="mobile" name = "mobile" class="form-control" 
+                                               data-ng-model="mobile" maxlength="12" 
+                                               data-ng-pattern="/^[0-9]*$/" 
+                                               data-ng-minlength="10" 
+                                               data-ng-model-options="{ updateOn: 'blur' }" 
+                                               data-ng-disabled="!all" required/>
+                                        <p class="text-danger" data-ng-show="ProfileForm.mobile.$error.required && ProfileForm.mobile.$dirty">This Informstion is a required.</p>
+                                        <p class="text-danger" data-ng-show="!ProfileForm.mobile.$error.required && ProfileForm.mobile.$error.pattern || ProfileForm.mobile.$error.minlength">10 numeric digits only</p>
+                                    </div>
+                                    <div class="row control-group">
+                                        <div class="form-group col-xs-12">
+                                            <div class = "row" data-ng-hide="update"> <!--Edit-->
+                                                <div class = "col-md-4 pull-left">
+                                                    <p class="text-info">{{msg}}</p>
+                                                </div>
+                                                <div class = "col-md-2 col-md-offset-6 col-sm-3 col-sm-offset-9">
+                                                    <button type="button" class="btn btn-success btn-lg btn-block pull-right" data-ng-click="enable()">Edit</button>
+                                                </div>
+                                            </div>
+                                            <div class = "row" data-ng-show="update"><!--Update & Cancel-->
+                                                <div class = "col-md-2 col-md-offset-8 col-sm-3 col-sm-offset-6">
+                                                    <button type="submit" class="btn btn-success btn-lg btn-block pull-right"
+                                                            data-ng-disabled="ProfileForm.$invalid" 
+                                                            data-ng-click="submit(loggedIn,firstname,lastname,mobile)">Update</button>
+                                                </div>
+                                                <div class = "col-md-2 col-sm-3 ">
+                                                    <button type="button" class="btn btn-lg btn-block pull-right" data-ng-click="disable()">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="ChangPass">
+                                <div class="row">
+                                <div class="col-md-12">
+                                <h4>Change Your Password</h4>
+                                <form name="PassForm" class="form col-md-12 col-sm-12 center-block">
+                                    <div class="form-group">
+                                        <div class = "row">
+                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <label for="currentP">Current Password</label>
+                                                <input type="password" id="currentP" name = "currentP" class="form-control" 
+                                                   data-ng-model="currentP" placeholder="CURRENT PASSWORD" maxlength = "20" required/>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <label  for="newP">New Password</label>
+                                                <input type="password" id="newP" name="newP" class="form-control" 
+                                                    data-ng-model="newP" data-ng-model-options="{ updateOn: 'blur' }"  placeholder="NEW PASSWORD" maxlength = "20" 
+                                                    data-ng-minlength="8" data-ng-pattern="/^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]/" required/>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <label  for="confirmP">Confirm Password</label>
+                                                 <input type="password" id="confirmP" name = "confirmP" class="form-control" data-ng-model="confirmP" data-pw-Check="newP" data-ng-model-options="{ updateOn: 'blur' }" placeholder="CONFIRM PASSWORD" maxlength = "20" required/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 col-xs-12">
+                                                <p>PASSWORD is CASE SENSITIVE and must be a minimum of six (8) characters at least containts one special character and not more than (20) characters.</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                            <p class="text-danger" data-ng-show="PassForm.newP.$error.minlength">New password must be at least 8 characters.</p>
+                                            <p class="text-danger" data-ng-show="!PassForm.newP.$error.minlength && PassForm.newP.$error.pattern">New password must contain at least 1 special character(!, @, $, %, ^, &amp;, and *)</p>
+                                            <!--required confirmP-->
+                                            <p class="text-danger" data-ng-show="PassForm.confirmP.$error.required && PassForm.confirmP.$dirty">Please confirm your password.</p>
+                                            <!--must match above new password-->
+                                            <p class="text-danger" data-ng-show="!PassForm.confirmP.$error.required && PassForm.confirmP.$error.pwCheck && PassForm.newP.$dirty && !PassForm.newP.$error.minlength && !PassForm.newP.$error.pattern">(New and Confirm) Passwords do not match.</p>
+                                            </div>
+                                        </div>
+                                        <div class = "row">
+                                            <div class = "col-md-4  col-sm-12">
+                                                <p class="text-danger">{{msg}}</p>
+                                            </div>
+                                            <div class = "col-md-4 col-md-offset-2 col-sm-4 col-sm-offset-3">
+                                                <button type="submit" class="btn btn-success btn-lg btn-block pull-right"
+                                                        data-ng-disabled="PassForm.$invalid" 
+                                                        data-ng-click="updateP(loggedIn,currentP,confirmP)">Change Password</button>
+                                            </div>
+                                            <div class = "col-md-2 col-sm-3">
+                                                <button type="button" class="btn btn-lg btn-block pull-right" data-ng-click="clear()">Clear</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane fade" id="Order">
+                                <div class="row">
+                                <div class="col-md-12">
+                                <h4>Order History</h4>
+                                <table class="table table-hover small" data-ng-hide="msgO">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Order ID</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    <tr data-ng-repeat="odrs in odr">
+                                        <td>{{odrs.date}}</td>
+                                        <td>{{odrs.orderid}}</td>
+                                        <td>{{odrs.total}}</td>
+                                        <td>{{odrs.status}}</td>
+                                    </tr>
+                                </table>
+                                <div class="row" data-ng-show="msgO">
+                                    <div class="col-md-12">{{msgO}}</div>
+                                    <div class="col-md-12"><button type="button" class="btn btn-info btn-lg center-block" data-ng-click="shop()">Shop Now</button></div>
+                                </div>
+                                </div>
+                                </div>
+<!--                                <p>{{odr}}</p>-->
+                            </div>
+            
+                            <div class="tab-pane fade" id="MyBag">
+                                <div class="row">
+                                <div class="col-md-12">
+                                <h4>My Cart</h4>
+                                <div class="table-responsive">
+                                <table class="table table-striped table-hover" data-ng-hide="msgC">
+                                    <tr>
+                                        <th class="col-md-1">No</th>
+                                        <th class="col-md-3">Item Description</th>
+                                        <th class="col-md-1">Remove?</th>
+                                        <th class="col-md-2 text-right">Price</th>
+                                        <th colspan="2" class="col-md-3 text-right">Quantity</th>
+                                        <th class="col-md-2 text-right">Item Total (RM)</th>
+                                    </tr>
+                                    <tr data-ng-repeat="odrDs in odrD">
+                                        <td class="col-md-1">{{odrDs.ItemNo}}</td>
+                                        <td class="col-md-3">{{odrDs.ItemName}}</td>
+                                        <td class="col-md-1">
+                                            <button type="button" class="btn btn-danger btn-sm btn-block pull-right" data-ng-click="RemoveItem(odrDs.OrderID,odrDs.OrderNo)">Remove</button>
+                                        </td>
+                                        <td class="col-md-2 text-right">{{odrDs.ItemPrice}}</td>
+                                        <td class="col-md-2 text-right">
+                                            <label class="hide" for="qty">QTY</label>
+                                            <input type="number" class="text-right form-control" id="qty" name = "qty" data-ng-model="qty" data-ng-init="qty=odrDs.ItemQty" min="1" required>
+                                        <td class="col-md-1 text-right">
+                                            <button type="submit" class="btn btn-success btn-sm pull-right" data-ng-click="updateQty(odrDs.OrderID,odrDs.OrderNo,qty)">Update</button>
+                                        </td>
+                                        <td class="col-md-2 text-right">{{odrDs.ItemTotal}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="text-right">Total</td>
+                                        <td class="text-right">{{ total }}</td>
+                                    </tr>
+                                </table>
+                                <div class="col-md-12" data-ng-hide="msgC"><button type="button" class="btn btn-primary btn-lg right-block pull-right" data-toggle="modal" data-target="#PlaceOrderpModal"> Place Order </button></div>
+                                </div>
+                                <div class="row" data-ng-show="msgC">
+                                    <div class="col-md-12">{{msgC}}</div>
+                                    <div class="col-md-12"><button type="button" class="btn btn-info btn-lg center-block" data-ng-click="shop()">Shop Now</button></div>
+                                </div>
+                                </div>
+                            </div>
+						</div>
+                        </div>
+					</div>
+				</div><!--/.panel-->
+			</div><!--/.col-->
+        </div>
+        <!-- Place Order Modal -->
+        <div class="modal" id="PlaceOrderpModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h1 class="text-center">Place Order</h1>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        <div class="col-md-12">
+                            <form name="orderForm" id="orderForm" class="form col-md-12 center-block" novalidate="novalidate">
+                                <fieldset>
+                                    <legend>Billing Details</legend>
+                                    <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="fname">First Name *</label>
+                                        <input type="text" class="form-control" placeholder="First Name" name="fname" id="fname" data-ng-model="fname" maxlength="40" data-ng-model-options = "{ updateOn: 'blur' }" required />
+                                        <p class="text-danger" data-ng-show="orderForm.fname.$dirty && orderForm.fname.$error.required">Please enter your first name.</p>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="lname">Last Name *</label>
+                                        <input type="text" class="form-control" placeholder="Last Name" name="lname" id="lname" data-ng-model="lname" maxlength="40" data-ng-model-options = "{ updateOn: 'blur' }" required />
+                                        <p class="text-danger" data-ng-show="orderForm.lname.$dirty && orderForm.lname.$error.required">Please enter your last name.</p>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="address" class="control-label">Street address *</label>
+                                        <input type="text" id="address" name = "address" placeholder="Street address" class="form-control" data-ng-model="address" maxlength="40" data-ng-model-options = "{ updateOn: 'blur' }" required/>
+                                        <p class="text-danger" data-ng-show="orderForm.address.$dirty && orderForm.address.$error.required">Please enter your street addres.</p>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="suburb" class="control-label">Suburb</label>
+                                        <input type="text" id="suburb" name = "suburb" placeholder="Suburb" class="form-control" data-ng-model="suburb" maxlength="40" />
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="city" class="control-label">City *</label>
+                                        <input type="text" id="city" name = "city"  placeholder="City" class="form-control" data-ng-model="city" maxlength="20" data-ng-model-options = "{ updateOn: 'blur' }" required/>
+                                        <p class="text-danger" data-ng-show="orderForm.city.$dirty && orderForm.city.$error.required">Please enter your city.</p>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="state" class="control-label">State *</label>
+                                        <input type="text" id="state" name = "state"  placeholder="State" class="form-control" data-ng-model="state" maxlength="20" data-ng-model-options = "{ updateOn: 'blur' }" required/>
+                                        <p class="text-danger" data-ng-show="orderForm.state.$dirty && orderForm.state.$error.required">Please enter your state.</p>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for ="postcode" class="control-label">Postcode *</label>
+                                        <input type="text" id="postcode" name = "postcode" class = "form-control" 
+                                               data-ng-model = "postcode" placeholder = "Postcode" maxlength="5"
+                                               data-ng-minlength = "5" data-ng-model-options = "{ updateOn: 'blur' }" 
+                                               data-ng-pattern="/^[0-9]*$/" required/>
+                                        <p class="text-danger" data-ng-show="orderForm.Postcode.$dirty && orderForm.state.$Postcode.required">Please enter your state.</p>
+                                        <!--exactly 4 numeric digits-->
+                                        <p class="text-danger" data-ng-show="!orderForm.postcode.$error.required && orderForm.postcode.$error.pattern || orderForm.postcode.$error.minlength">Must be exactly 5 numeric digits.</p>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for ="country" class="control-label">Country</label>
+                                        <input type="text" id = "country" name = "country" class = "form-control" 
+                                               data-ng-model = "country"  data-ng-init="country='Malaysia'" disabled/>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="phone" class="control-label">Phone number *</label>
+                                        <input type="text" id="phone" name = "phone" class="form-control" data-ng-model="phone" maxlength="12" data-ng-pattern="/^[0-9]*$/" data-ng-minlength="10" data-ng-model-options="{ updateOn: 'blur' }" required/>
+                                        <!--required-->
+                                        <p class="text-danger" data-ng-show="orderForm.phone.$error.required && myForm.phone.$dirty">Please enter your phone number.</p>
+                                        <!--must be start with 04 and 10 numeric digits-->
+                                        <p class="text-danger" data-ng-show="!orderForm.phone.$error.required && orderForm.phone.$error.pattern || orderForm.phone.$error.minlength">Must be start at least 10 numeric digits</p>
+                                    </div>
+<!--
+                                    <div class="form-group col-md-6">
+                                        <label for ="method">Payment Method</label>
+                                        <select class="form-control" id="method">
+                                            <option>PayPal</option>
+                                            <option>Credit Card</option>
+                                            <option>Cash</option>
+                                        </select>
+                                    </div>
+-->
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Summary Detail {{OrderId}}</legend>
+                                    <div class="form-group col-md-12">
+                                        <table class="table table-striped table-hover" data-ng-hide="msgC">
+                                            <tr data-ng-repeat="odrDs in odrD">
+                                                <td class="text-right">{{odrDs.ItemName}}</td>
+                                                <td> * </td>
+                                                <td class="text-right">{{odrDs.ItemQty}}</td>
+                                                <td class="text-right">{{odrDs.ItemTotal}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="text-right">Grand Total</td>
+                                                <td class="text-right">{{ total }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="submit" class="btn btn-primary btn-lg btn-block pull-right" data-ng-disabled="orderForm.$invalid" data-ng-click="order(OrderId, fname, lname, address, suburb, city, state, postcode, country, phone,total)">Confirm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="alert alert-danger addmargin" role="alert" data-ng-show="msg">{{msg}}</div>
+                                </div>
+                            </form>
+                         </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+            

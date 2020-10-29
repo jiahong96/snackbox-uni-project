@@ -1,0 +1,87 @@
+<!--
+Author : LIM SZE SAN (100065180)
+Custom Web Application For COS30043 Interface Design and Development 
+-->
+<section id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2>Contact Me</h2>
+                <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4 col-sm-12 ">
+                    <figure class="figure">
+                        <img src="img/call4.png" class="center-block  featurette-image img-circle img-responsive" alt="">
+                        <figcaption >BY PHONE:<br /><a href="tel:06-25331314">(06)25331314</a></figcaption>
+                    </figure>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                   <figure class="figure">
+                        <img src="img/email4.png" class="center-block  img-responsive figure-img img-fluid img-rounded" alt="">
+                       <figcaption >BY EMAIL:<br /><a href="maito:#">info@lss.com.my</a></figcaption>
+                    </figure>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <figure class="figure">
+                        <img src="img/location4.png" class="center-block  img-responsive figure-img img-fluid img-rounded" alt="">
+                        <figcaption >BY VISIT:<br />Jalan Simpang Tiga, 93300 Kuching, Sarawak, Malaysia</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2>Drop A Message</h2>
+                <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <form name="sentMessage" id="contactForm" novalidate="novalidate">
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" placeholder="Name" name="name" id="name" data-ng-model="name" required>
+                            <p class="text-danger" data-ng-show="sentMessage.name.$dirty && sentMessage.name.$error.required">This field is required! Please enter your name.</p>
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12">
+                            <label for="email">Email Address</label>
+                            <input type="email" class="form-control" placeholder="Email Address" name="email" id="email" data-ng-model="email" required>
+                            <p class="text-danger" data-ng-show="sentMessage.email.$dirty && sentMessage.email.$error.required">This field is required! Please enter your email address.</p>
+                            
+                            <p class = "text-danger" data-ng-show = "!sentMessage.email.$error.required && sentMessage.email.$invalid">Must be in email format.</p>
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" class="form-control" placeholder="Phone Number" name="phone" id="phone" data-ng-model="phone" data-ng-pattern="/^[0-9]*$/" data-ng-minlength="10" maxlength="12" required>
+                            <p class="text-danger" data-ng-show="sentMessage.phone.$dirty && sentMessage.phone.$error.required">This field is required! Please enter your phone number.</p>
+                            <p class="text-danger" data-ng-show="!sentMessage.phone.$error.required && sentMessage.phone.$error.pattern || sentMessage.phone.$error.minlength">Must be start at least 10 numeric digits</p>
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12">
+                            <label for="message">Message</label>
+                            <textarea rows="5" class="form-control" placeholder="Message" name="message" id="message" maxlength="1000" data-ng-model="message" onkeypress="return allExecpt(event)" required></textarea>
+                            
+                            <p class="text-danger" data-ng-show="sentMessage.message.$dirty && sentMessage.message.$error.required" >This field is required! Please enter your message.</p>
+                           
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12">
+                            <div class="alert pull-left" role="alert" data-ng-show="msg">{{msg}}</div>
+                            <button type="submit" class="btn btn-success btn-lg pull-right" data-ng-click="submit(name,email,phone,message)" data-ng-disabled="sentMessage.$invalid">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

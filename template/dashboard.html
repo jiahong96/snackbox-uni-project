@@ -1,0 +1,762 @@
+<!--
+Author : LIM SZE SAN (100065180)
+Custom Web Application For COS30043 Interface Design and Development 
+-->
+<section id="dashboard">
+    <div class="container">
+        <div class="row">
+            <div class = "col-md-12">
+                <div id="wrapper">
+                    <!-- Sidebar -->
+                    <div id="sidebar-wrapper">
+                        <ul class="sidebar-nav">
+                            <li class="sidebar-brand"><a>Admin Board</a></li>
+                            <li><a href="" data-toggle="tab" data-target="#dash">Dashboard</a></li>
+                            <li><a href="" data-toggle="tab" data-target="#order">View Order</a></li>
+                            <li><a href="" data-toggle="tab" data-target="#message">View Message</a></li>
+                            <li><a href="" data-toggle="tab" data-target="#member">View Member</a></li>
+                            <li><a href="" data-toggle="tab" data-target="#sales">View Sales</a></li>
+                            <li><a href="" data-toggle="tab" data-target="#box">View Snackbox</a></li>
+                        </ul>
+                    </div>
+                    <!-- /#sidebar-wrapper -->
+
+                    <!-- Page Content -->
+                    <div id="page-content-wrapper">
+                        <div class="container-fluid">
+                            <div class="tab-content">
+                                <!-- dashboard -->
+                                <div class="tab-pane fade in active" id="dash">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2>Dashboard<a class="btn btn-default" id="menu-toggle" data-ng-click="menutoogle()">Toggle Menu</a></h2>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-4 col-sm-12 col-xs-12">
+                                                        <figure class="figure">
+                                                            <img src="img/shop.png" class="center-block  featurette-image img-circle img-responsive" alt="">
+                                                            <figcaption>
+                                                                <p class="text-muted">New Orders</p>
+                                                                <p data-ng-bind="order"></p>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </div>
+                                                   <div class="col-md-4 col-sm-12 col-xs-12">
+                                                       <figure class="figure">
+                                                            <img src="img/messages-icon.png" class="center-block  featurette-image img-circle img-responsive" alt="">
+                                                            <figcaption>
+                                                                <p class="text-muted">New Messages</p>
+                                                                <p data-ng-bind="message"></p>
+                                                           </figcaption>
+                                                        </figure>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 col-xs-12">
+                                                        <figure class="figure">
+                                                            <img src="img/member.png" class="center-block  featurette-image img-circle img-responsive" alt="">
+                                                            <figcaption >
+                                                                <p class="text-muted">New Users</p>
+                                                                <p data-ng-bind="user"></p>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                 <div class="col-md-12">
+                                                     <h2>Resposive Timeline</h2>
+                                                     <div id="line" data-ng-repeat="timeline in infos | orderBy : '-datetime'">
+                                                        <span data-ng-if="timeline.status == 'order'">
+                                                            <p class="alert alert-danger">
+                                                                {{timeline.datetime}}<br />
+                                                                    {{timeline.username}}{{timeline.message}}
+                                                            </p>
+                                                        </span>
+                                                        <span data-ng-if="timeline.status == 'message'">
+                                                            <p class="alert alert-warning">{{timeline.datetime}}<br />
+                                                                    {{timeline.username}}{{timeline.message}}</p>
+                                                        </span>
+                                                        <span data-ng-if="timeline.status == 'member'">
+                                                            <p class="alert alert-info">{{timeline.datetime}}<br />
+                                                                    {{timeline.username}}{{timeline.message}}</p>
+                                                         </span>
+                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- view order -->
+                                <div class="tab-pane fade" id="order">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2>View Order <a class="btn btn-default" id="menu-toggle" data-ng-click="menutoogle()">Toggle Menu</a></h2>
+                                            <form class="form-inline" name="vieworder" id="vieworder" novalidate="novalidate">
+                                                <div class="row control-group">
+                                                    <div class="form-group col-md-4 col-xs-12">
+                                                        <label for="filterby">Filter By :</label>
+                                                        <select class="form-control" name="filterby" id="filterby" data-ng-model="filterby">
+                                                            <option value="">Please Select</option>
+                                                            <option value="OrderID">Order ID</option>
+                                                            <option value="OrderDatetime">Date</option>
+                                                            <option value="Email">Email</option>
+                                                            <option value="PhoneNo">Contact</option>
+                                                            <option value="Status">Status</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-8 col-xs-12">
+                                                         <div data-ng-if="filterby"> 
+                                                            <div data-ng-show="filterby=='OrderID'">
+                                                                <label for = "orderid">Order ID :</label>
+                                                                <input type="text" class="form-control" id="orderid" name="orderid" data-ng-model="orderid"  maxlength="12" required/>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit" data-ng-disabled="vieworder.orderid.$invalid"
+                                                                       data-ng-click="filterorder(filterby,orderid)" value="SEARCH"/>
+                                                                <p class="text-danger" data-ng-show="vieworder.orderid.$dirty && vieworder.orderid.$error.required">This field is required!</p>
+                                                            </div>
+                                                            <div data-ng-show="filterby=='OrderDatetime'">
+                                                                <label for = "date">Date : </label>
+                                                                <input type="text" id="date" class="form-control" data-ng-model="datePicker" datepicker readonly/>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit"  data-ng-click="filterorder(filterby,datePicker)" value="SEARCH"/>
+                                                            </div>
+                                                            <div data-ng-show="filterby=='Email'">
+                                                                <label for ="email">Email :</label>
+                                                                <input type="text" class="form-control" id="email" name="email"  data-ng-model="email" maxlength="64" required/>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit" data-ng-disabled="vieworder.email.$invalid" data-ng-click="filterorder(filterby,email)" value="SEARCH"/>
+                                                            </div>
+                                                            <div data-ng-show="filterby=='PhoneNo'">
+                                                                <label for="contact">Phone No :</label>
+                                                                <input type="text" class="form-control" id="contact" name="contact" data-ng-model="contact" maxlength="12" onkeypress="return numOnly(event)" required/>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit" data-ng-disabled="vieworder.contact.$invalid" data-ng-click="filterorder(filterby,contact)" value="SEARCH"/>
+                                                            </div>
+                                                             <div data-ng-show="filterby=='Status'">
+                                                                <label for="Status">Status :</label>
+                                                                <select class="form-control"  name="Status" id="Status" data-ng-model="status">
+                                                                    <option value="">Please Select</option>
+                                                                    <option value="pending">Pending</option>
+                                                                    <option value="shipping">Shipping</option>
+                                                                    <option value="received">Received</option>
+                                                                    <option value="cancel">Cancel</option>
+                                                                </select>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit" data-ng-disabled="vieworder.Status == ''" data-ng-click="filterorder(filterby,status)" value="SEARCH"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table class="table table-inverse">
+                                                        <thead class="thead-inverse">
+                                                            <tr>
+                                                                <th>Order Date</th>
+                                                                <th>Customer</th>
+                                                                <th>Order ID</th>
+                                                                <th class="text-right">Total</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody data-ng-hide="ords =='NoData!'">
+                                                            <tr data-ng-repeat="order in ords| orderBy:'datetime'
+                                                                | offset: currentPage*noPerPage| limitTo: noPerPage">
+                                                                <td>{{order.datetime}}</td>
+                                                                <td>{{order.username}}</td>
+                                                                <td><a href="" data-toggle="modal" data-target="#DetailModal" data-ng-click="updateDetails(order.orderid)">{{order.orderid}}</a></td>
+                                                                <td class="text-right">{{order.total}}</td>
+                                                                <td>
+                                                                    <label class="hide" for="status">Status</label>
+                                                                    <select id="status" class="form-control" data-ng-model="order.status">
+                                                                        <option value="pending">Pending</option>
+                                                                        <option value="shipping">Shipping</option>
+                                                                        <option value="received">Received</option>
+                                                                        <option value="cancel">Cancel</option>
+                                                                    </select>
+                                                                    <button type="submit" class="btn btn-danger btn-sm pull-right" data-ng-click="updateStatus('tb_order',order.orderid,order.status)">Update</button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tbody data-ng-show="ords =='NoData!'">
+                                                            <tr>
+                                                                <td colspan="5" class="text-center">No record Found!
+                                                                    <input class="btn btn-primary btn-md" name="search" type="submit"
+                                                                           data-ng-click="defaultFilter()" value="Default Display"/>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot data-ng-hide="ords =='NoData!'">
+                                                            <tr>
+                                                                <td colspan="5">
+                                                                    <ul class="pagination">
+                                                                        <li data-ng-class="prevPageDisabled('order')">
+                                                                            <a href="" data-ng-click="prevPage('order')">Prev</a>
+                                                                        </li>
+                                                                        <li data-ng-repeat="n in range('order')" data-ng-class="{active: n == currentPage}"
+                                                                                data-ng-click="setPage(n,'order')">
+                                                                            <a href="">{{n+1}}</a>
+                                                                        </li>
+                                                                        <li data-ng-class="nextPageDisabled('order')">
+                                                                            <a href= "" data-ng-click="nextPage('order')">Next</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- Order Details Modal -->
+                                    <div class="modal" id="DetailModal" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h1 class="text-center text-info">Order Details: {{orderid}}</h1>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <p class="col-md-6 text-info">Name : {{name}}</p>
+                                                            <p class="col-md-6 text-info">Email : {{email}}</p>
+                                                            <p class="col-md-6 text-info">Total : RM{{total}}</p>
+                                                            <p class="col-md-6 text-info">Status : {{status}}</p>
+                                                            <p class="col-md-6 text-info">Address : {{add1}}<br />{{add2}}<br />{{add3}}</p>
+                                                            <p class="col-md-6 text-info">Phone No : {{phoneno}}</p>
+                                                            <p class="col-md-12 text-info">Item Details :</p>
+                                                        </div>
+                                                        <div class="col-md-8 col-md-offset-2 ">
+                                                            <table class="table table-striped table-hover">
+                                                                <tr data-ng-repeat="odrDs in ordDss">
+                                                                    <td class="text-info text-right">{{odrDs.no}}</td>
+                                                                    <td class="text-info text-right">{{odrDs.item}}</td>
+                                                                    <td class="text-info"> * </td>
+                                                                    <td class="text-info text-right">{{odrDs.qty}}</td>
+                                                                    <td class="text-info text-right">{{odrDs.price}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- view message -->
+                                <div class="tab-pane fade" id="message">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2>View Message <a class="btn btn-default" id="menu-toggle" data-ng-click="menutoogle()">Toggle Menu</a></h2>
+                                            <form class="form-inline" name="viewmsg" id="viewmsg" novalidate="novalidate">
+                                                <div class="row control-group">
+                                                    <div class="form-group col-md-4 col-xs-12">
+                                                        <label for="filterby">Filter By :</label>
+                                                        <select class="form-control" name="filterby" id="filterby" data-ng-model="filterby">
+                                                            <option value="">Please Select</option>
+                                                            <option value="Datetime">Date</option>
+                                                            <option value="Email">Email</option>
+                                                            <option value="PhoneNo">Contact</option>
+                                                            <option value="Status">Status</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-8 col-xs-12">
+                                                         <div data-ng-if="filterby"> 
+                                                            <div data-ng-show="filterby=='Datetime'">
+                                                                <label for = "date1">Date : </label>
+                                                                <input type="text" id="date1" class="form-control" data-ng-model="datePicker" datepicker readonly/>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit"  data-ng-click="filtermsg(filterby,datePicker)" value="SEARCH"/>
+                                                            </div>
+                                                            <div data-ng-show="filterby=='Email'">
+                                                                <label>Email :</label>
+                                                                <input type="text" class="form-control" id="email" name="email"  data-ng-model="email" maxlength="64" required/>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit" data-ng-disabled="viewmsg.email.$invalid" data-ng-click="filtermsg(filterby,email)" value="SEARCH"/>
+                                                            </div>
+                                                            <div data-ng-show="filterby=='PhoneNo'">
+                                                                <label for="contact">Phone No :</label>
+                                                                <input type="text" class="form-control" id="contact" name="contact" data-ng-model="contact" maxlength="12" onkeypress="return numOnly(event)" required/>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit" data-ng-disabled="viewmsg.contact.$invalid" data-ng-click="filtermsg(filterby,contact)" value="SEARCH"/>
+                                                            </div>
+                                                             <div data-ng-show="filterby=='Status'">
+                                                                <label for="Status">Status :</label>
+                                                                <select class="form-control"  name="Status" id="Status" data-ng-model="status">
+                                                                    <option value="">Please Select</option>
+                                                                    <option value="N">Not Viewed</option>
+                                                                    <option value="Y">Viewed</option>
+                                                                </select>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit" data-ng-disabled="viewmsg.Status == ''" data-ng-click="filtermsg(filterby,status)" value="SEARCH"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table class="table table-inverse">
+                                                        <thead class="thead-inverse">
+                                                            <tr>
+                                                                <th>DateTime</th>
+                                                                <th>Customer Name</th>
+                                                                <th>Email</th>
+                                                                <th>Message</th>
+                                                                <th>Status: Viewed?</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody data-ng-hide="mgss =='NoData!'">
+                                                            <tr data-ng-repeat="m in mgss| orderBy:'datetime'
+                                                                | offset: currentPageM*noPerPage| limitTo: noPerPage">
+                                                                <td>{{m.datetime}}</td>
+                                                                <td>{{m.username}}</td>
+                                                                <td>{{m.email}}</td>
+                                                                <td>{{m.message}}</td>
+                                                                <td>
+                                                                    <select class="form-control"  name="Status" id="Status" data-ng-model="m.status">
+                                                                        <option value="N">No</option>
+                                                                        <option value="Y">Yes</option>
+                                                                    </select>
+                                                                    <button type="submit" class="btn btn-danger btn-sm pull-right" data-ng-click="updateStatus('tb_enquiry',m.no,m.status)">Update</button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tbody data-ng-show="mgss =='NoData!'">
+                                                            <tr>
+                                                                <td colspan="5" class="text-center">No record Found!
+                                                                    <input class="btn btn-primary btn-md" name="search" type="submit"
+                                                                           data-ng-click="defaultFilter2()" value="Default Display"/>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot data-ng-hide="mgss =='NoData!'">
+                                                            <tr>
+                                                                <td colspan="5">
+                                                                    <ul class="pagination">
+                                                                        <li data-ng-class="prevPageDisabled('message')">
+                                                                            <a href="" data-ng-click="prevPage('message')">Prev</a>
+                                                                        </li>
+                                                                        <li data-ng-repeat="n in range('message')" data-ng-class="{active: n == currentPageM}"
+                                                                                data-ng-click="setPage(n,'message')">
+                                                                            <a href="">{{n+1}}</a>
+                                                                        </li>
+                                                                        <li data-ng-class="nextPageDisabled('message')">
+                                                                            <a href= "" data-ng-click="nextPage('message')">Next</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- view member -->
+                                <div class="tab-pane fade" id="member">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2>View Member <a class="btn btn-default" id="menu-toggle" data-ng-click="menutoogle()">Toggle Menu</a></h2>
+                                            <form class="form-inline" name="viewmem" id="vieworder" novalidate="novalidate">
+                                                <div class="row control-group">
+                                                    <div class="form-group col-md-4 col-xs-12">
+                                                        <label for="filterby">Filter By :</label>
+                                                        <select class="form-control" name="filterby" id="filterby" data-ng-model="filterby">
+                                                            <option value="">Please Select</option>
+                                                            <option value="JoinDate">JoinDate</option>
+                                                            <option value="Email">Email</option>
+                                                            <option value="FirstName">FirstName</option>
+                                                            <option value="LastName">LastName</option>
+                                                            <option value="PhoneNo">PhoneNo</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-8 col-xs-12">
+                                                         <div data-ng-if="filterby"> 
+                                                            <div data-ng-show="filterby=='JoinDate'">
+                                                                <label for = "Jdate">Date : </label>
+                                                                <input type="text" id="Jdate" class="form-control" data-ng-model="datePicker" datepicker readonly/>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit"  data-ng-click="filtermem(filterby,datePicker)" value="SEARCH"/>
+                                                            </div>
+                                                            <div data-ng-show="filterby=='Email'">
+                                                                <label for = "email">Email :</label>
+                                                                <input type="text" class="form-control" id="email" name="email"  data-ng-model="email" maxlength="64" required/>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit" data-ng-disabled="viewmem.email.$invalid" data-ng-click="filtermem(filterby,email)" value="SEARCH"/>
+                                                            </div>
+                                                            <div data-ng-show="filterby=='FirstName'">
+                                                                <label for="fname">FirstName :</label>
+                                                                <input type="text" class="form-control" id="fname" name="fname"  data-ng-model="fname" maxlength="40" required/>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit" data-ng-disabled="viewmem.fname.$invalid" data-ng-click="filtermem(filterby,fname)" value="SEARCH"/>
+                                                            </div>
+                                                            <div data-ng-show="filterby=='LastName'">
+                                                                <label for="lname">LastName :</label>
+                                                                <input type="text" class="form-control" id="lname" name="lname"  data-ng-model="lname" maxlength="64" required/>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit" data-ng-disabled="viewmem.lname.$invalid" data-ng-click="filtermem(filterby,lname)" value="SEARCH"/>
+                                                            </div>
+                                                            <div data-ng-show="filterby=='PhoneNo'">
+                                                                <label for="contact">Phone No :</label>
+                                                                <input type="text" class="form-control" id="contact" name="contact" data-ng-model="contact" maxlength="12" onkeypress="return numOnly(event)" required/>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit" data-ng-disabled="viewmem.contact.$invalid" data-ng-click="filtermem(filterby,contact)" value="SEARCH"/>
+                                                            </div>
+                                                           
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table class="table table-inverse">
+                                                        <thead class="thead-inverse">
+                                                            <tr>
+                                                                <th>No</th>
+                                                                <th>Username</th>
+                                                                <th>FirstName</th>
+                                                                <th>LastName</th>
+                                                                <th>Email</th>
+                                                                <th>PhoneNo</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody data-ng-hide="mem =='NoData!'">
+                                                            <tr data-ng-repeat="mems in mem
+                                                                | offset: currentPageS*noPerPage| limitTo: noPerPage">
+                                                                <td>{{mems.no}}</td>
+                                                                <td>{{mems.username}}</td>
+                                                                <td>{{mems.FirstName}}</td>
+                                                                <td>{{mems.LastName}}</td>
+                                                                <td>{{mems.Email}}</td>
+                                                                <td>{{mems.PhoneNo}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tbody data-ng-show="mem =='NoData!'">
+                                                            <tr>
+                                                                <td colspan="6" class="text-center">No record Found!
+                                                                    <input class="btn btn-primary btn-md" name="search" type="submit"
+                                                                           data-ng-click="defaultFilter3()" value="Default Display"/>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot data-ng-hide="mem =='NoData!'">
+                                                            <tr>
+                                                                <td colspan="6">
+                                                                    <ul class="pagination">
+                                                                        <li data-ng-class="prevPageDisabled('member')">
+                                                                            <a href="" data-ng-click="prevPage('member')">Prev</a>
+                                                                        </li>
+                                                                        <li data-ng-repeat="n in range('member')" data-ng-class="{active: n == currentPageS}"
+                                                                                data-ng-click="setPage(n,'member')">
+                                                                            <a href="">{{n+1}}</a>
+                                                                        </li>
+                                                                        <li data-ng-class="nextPageDisabled('member')">
+                                                                            <a href= "" data-ng-click="nextPage('member')">Next</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- view Sales -->
+                                <div class="tab-pane fade" id="sales" data-ng-controller="salesCtrl">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2>View Sales<a class="btn btn-default" id="menu-toggle" data-ng-click="menutoogle()">Toggle Menu</a></h2>
+                                            <a class="btn btn-default" data-ng-click="callChart()">Refresh</a>
+<!--
+                                            <div class="canvas-wrapper">
+                                                <canvas class="chart" id="snackbox"></canvas>
+                                            </div>
+                                            <div class="canvas-wrapper">
+                                                <canvas class="chart" id="income"></canvas>
+                                            </div>
+-->         
+                                            <div class="table-responsive">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">Total Sold Out Quantity By SnackBox</div>
+                                                            <div class="panel-body">
+                                                                <div class="canvas-wrapper">
+                                                                    <canvas class="chart" id="snackbox"></canvas>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">Total Quantity By Month</div>
+                                                            <div class="panel-body">
+                                                                <div class="canvas-wrapper">
+                                                                    <canvas class="chart" id="income"></canvas>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>   
+                                            
+                                            <div class="table-responsive">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">Total Sales By Month</div>
+                                                            <div class="panel-body">
+                                                                <div class="canvas-wrapper">
+                                                                    <canvas class="chart" id="salesbymonth"></canvas>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- view SnackBox -->
+                                <div class="tab-pane fade" id="box" data-ng-controller="snackboxCtrl">
+                                    <div class="row" data-ng-if="Display">
+                                        <div class="col-md-12" data-ng-show="Display=='View'">
+                                            <h2>View SnackBox<a class="btn btn-default" id="menu-toggle" data-ng-click="menutoogle()">Toggle Menu</a></h2>
+                                            <form class="form-inline" name="viewbox" id="viewbox" novalidate="novalidate">
+                                                <div class="row control-group">
+                                                    <div class="form-group col-md-5 col-sm-4 col-xs-12">
+                                                        <label for="filterby">Serach By :</label>
+                                                        <select class="form-control" name="filterby" id="filterby" data-ng-model="filterby">
+                                                            <option value="">Please Select</option>
+                                                            <option value="ItemName">Item Name</option>
+                                                            <option value="ItemDesc">Item Description</option>
+                                                            <option value="Status">Status</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-7 col-sm-6 col-xs-12">
+                                                         <div data-ng-if="filterby"> 
+                                                            <div data-ng-show="filterby=='ItemName'">
+                                                                <label for = "name">Item Name :</label>
+                                                                <input type="text" class="form-control" id="name" name="name"  data-ng-model="name" maxlength="40" required/>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit" data-ng-disabled="viewbox.name.$invalid" data-ng-click="filterbox(filterby,name)" value="SEARCH"/>
+                                                            </div>
+                                                            <div data-ng-show="filterby=='ItemDesc'">
+                                                                <label for="Desc">Item Description :</label>
+                                                                <input type="text" class="form-control" id="Desc" name="Desc"  data-ng-model="Desc" maxlength="40" required/>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit" data-ng-disabled="viewbox.Desc.$invalid" data-ng-click="filterbox(filterby,Desc)" value="SEARCH"/>
+                                                            </div>
+                                                            <div data-ng-show="filterby=='Status'">
+                                                                <label for="Status">Status :</label>
+                                                                <select class="form-control"  name="Status" id="Status" data-ng-model="status">
+                                                                    <option value="">Please Select</option>
+                                                                    <option value="Active">Active</option>
+                                                                    <option value="Pending">Pending</option>
+                                                                    <option value="Expired">Expired</option>
+                                                                </select>
+                                                                <input class="btn btn-success btn-md" name="search" type="submit" data-ng-disabled="viewbox.Status == ''" data-ng-click="filterbox(filterby,status)" value="SEARCH"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table class="table table-inverse">
+                                                        <thead class="thead-inverse">
+                                                            <tr>
+                                                                <th>ID</th>
+                                                                <th>Name</th>
+                                                                <th>Description</th>
+                                                                <th class="text-right">Price</th>
+                                                                <th>Status</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        
+                                                        <tbody data-ng-hide="box =='NoData!'">
+                                                            <tr data-ng-repeat="boxs in box|orderBy:'ItemID'
+                                                                | offset: currentPageB*noPerPage| limitTo: noPerPage">
+                                                                <td>{{boxs.ItemID}}</td>
+                                                                <td>{{boxs.ItemName}}</td>
+                                                                <td>{{boxs.ItemDesc}}</td>
+                                                                <td class="text-right">{{boxs.ItemPrice}}</td>
+                                                                <td>{{boxs.Status}}</td>
+                                                                <td>
+                                                                    <p class="text-center minwidth">
+                                                                    <button type="submit" class="btn btn-primary btn-sm pull-left" data-ng-click="Add()">Add</button>
+                                                                    <button type="submit" class="btn btn-warning btn-sm" data-ng-click="Edit(boxs.ItemID)">Edit</button>
+                                                                    <button type="submit" class="btn btn-danger btn-sm pull-right" data-ng-click="Remove(boxs.ItemID,boxs.ItemName,boxs.ItemDesc,boxs.ItemPrice,boxs.Status,boxs.ItemPath)">Remove</button>
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tbody data-ng-show="box =='NoData!'">
+                                                            <tr>
+                                                                <td colspan="6" class="text-center">No record Found!
+                                                                    <input class="btn btn-primary btn-md" name="search" type="submit"
+                                                                           data-ng-click="defaultFilter4()" value="Default Display"/>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot data-ng-hide="box =='NoData!'">
+                                                            <tr>
+                                                                <td colspan="6">
+                                                                    <ul class="pagination">
+                                                                        <li data-ng-class="prevPageDisabled('box')">
+                                                                            <a href="" data-ng-click="prevPage('box')">Prev</a>
+                                                                        </li>
+                                                                        <li data-ng-repeat="n in range('box')" data-ng-class="{active: n == currentPageB}"
+                                                                                data-ng-click="setPage(n,'box')">
+                                                                            <a href="">{{n+1}}</a>
+                                                                        </li>
+                                                                        <li data-ng-class="nextPageDisabled('box')">
+                                                                            <a href= "" data-ng-click="nextPage('box')">Next</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </form>
+                                        </div>
+                                         <!-- Add Item -->
+                                        <div class="col-md-12"  data-ng-show="Display=='Add'||Display=='Edit' || Display=='Remove'" >
+                                            <h2>
+                                                <span data-ng-show="Display=='Add'">
+                                                    {{Display}} SnackBox
+                                                </span>
+                                                <span data-ng-show=" Display=='Edit'">
+                                                    {{Display}} SnackBox {{ItemID}}
+                                                </span>
+                                                <span data-ng-show="Display=='Remove'">
+                                                    Confirm to {{Display}} this {{ItemID}} SnackBox?
+                                                </span>
+                                                <a class="btn btn-default" id="menu-toggle" data-ng-click="menutoogle()">Toggle Menu</a>
+                                            </h2>
+                                            <form name="AddForm" id="AddForm" class="form col-md-12 center-block" novalidate="novalidate" data-ng-show="Display=='Add'">
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="name">Item Name *</label>
+                                                        <input type="text" class="form-control" placeholder="Item Name" name="name" id="name" data-ng-model="name" maxlength="40" data-ng-model-options = "{ updateOn: 'blur' }" required />
+                                                        <p class="text-danger" data-ng-show="AddForm.name.$dirty && AddForm.name.$error.required">Please enter your Item Name.</p>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="desc">Item Desc *</label>
+                                                        <input type="text" class="form-control" placeholder="Item Description" name="desc" id="desc" data-ng-model="desc" maxlength="40" data-ng-model-options = "{ updateOn: 'blur' }" required />
+                                                        <p class="text-danger" data-ng-show="AddForm.desc.$dirty && AddForm.desc.$error.required">Please enter your Item Description.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="price">Item Price *</label>
+                                                        <input type="text" class="form-control" placeholder="Item Price" name="price" id="price" data-ng-model="price" maxlength="8" data-ng-model-options = "{ updateOn: 'blur' }" onkeypress="return numAndDotOnly(event)" required />
+                                                        <p class="text-danger" data-ng-show="AddForm.price.$dirty && AddForm.price.$error.required">Please enter your Item Price.</p>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="status">Item Status *</label>
+                                                        <select class="form-control"  name="status" id="status" data-ng-model="status">
+                                                            <option value="Active">Active</option>
+                                                            <option value="Pending">Pending</option>
+                                                            <option value="Expired">Expired</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                     <div class="form-group col-md-12">
+                                                        <label for="path">Item Image Path *</label>
+                                                        <input type="file" class="form-control" name="path" id="path" dat-ng-model="path" accept="image/*"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <button type="submit" class="btn btn-primary btn-lg btn-block pull-right" data-ng-disabled="AddForm.$invalid" data-ng-click="AddToDB(name,desc,price,status)">Add Snackbox</button>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <button type="submit" class="btn btn-default btn-lg btn-block pull-right" data-ng-click="cancel()">Cancel</button>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <div class="alert alert-danger addmargin" role="alert" data-ng-show="msg">{{msg}}</div>
+                                                    </div>
+                                                </div>                                      
+                                            </form>
+                                            <form name="EditForm" id="EditForm" class="form col-md-12 center-block" novalidate="novalidate" data-ng-show="Display=='Edit'">
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="nameE">Item Name *</label>
+                                                        <input type="text" class="form-control" placeholder="Item Name" name="nameE" id="nameE" data-ng-model="nameE" maxlength="40" data-ng-model-options = "{ updateOn: 'blur' }" required />
+                                                        <p class="text-danger" data-ng-show="EditForm.nameE.$dirty && EditForm.nameE.$error.required">Please enter your Item Name.</p>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="descE">Item Desc *</label>
+                                                        <input type="text" class="form-control" placeholder="Item Description" name="descE" id="descE" data-ng-model="descE" maxlength="40" data-ng-model-options = "{ updateOn: 'blur' }" required />
+                                                        <p class="text-danger" data-ng-show="EditForm.descE.$dirty && EditForm.descE.$error.required">Please enter your Item Description.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="priceE">Item Price *</label>
+                                                        <input type="text" class="form-control" placeholder="Item Price" name="priceE" id="priceE" data-ng-model="priceE" maxlength="8" data-ng-model-options = "{ updateOn: 'blur' }" onkeypress="return numAndDotOnly(event)" required />
+                                                        <p class="text-danger" data-ng-show="EditForm.priceE.$dirty && EditForm.priceE.$error.required">Please enter your Item Price.</p>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="statusE">Item Status *</label>
+                                                        <select class="form-control"  name="statusE" id="statusE" data-ng-model="statusE">
+                                                            <option value="Active">Active</option>
+                                                            <option value="Pending">Pending</option>
+                                                            <option value="Expired">Expired</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                     <div class="form-group col-md-12">
+                                                        <label for="pathE">Item Image Path *</label>
+                                                        <input type="file" class="form-control" name="pathE" id="pathE" dat-ng-model="pathE" accept="image/*"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <p>{{msg}}</p>
+                                                    <div class="col-md-6">
+                                                        <button type="submit" class="btn btn-warning btn-lg btn-block pull-right"  data-ng-click="EditToDB(ItemID,nameE,descE,priceE,statusE)">Edit Snackbox</button>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <button type="submit" class="btn btn-default btn-lg btn-block pull-right" data-ng-click="cancelE()">Cancel</button>
+                                                    </div>
+                                                </div>                                      
+                                            </form>
+                                            <form name="RemoveForm" id="RemoveForm" class="form col-md-12 center-block" novalidate="novalidate" data-ng-show="Display=='Remove'">
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="nameR">Item Name *</label>
+                                                        <input type="text" class="form-control" name="nameR" id="nameR" disabled/>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="descR">Item Desc *</label>
+                                                        <input type="text" class="form-control" name="descR" id="descR" disabled/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="priceR">Item Price *</label>
+                                                        <input type="text" class="form-control" name="priceR" id="priceR" disabled/>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="statusE">Item Status *</label>
+                                                        <select class="form-control"  name="statusE" id="statusE" disabled>
+                                                            <option value="Active">Active</option>
+                                                            <option value="Pending">Pending</option>
+                                                            <option value="Expired">Expired</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <button type="submit" class="btn btn-danger btn-lg btn-block pull-right"  data-ng-click="RemoveDB(ItemID)">Remove Snackbox</button>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <button type="submit" class="btn btn-default btn-lg btn-block pull-right" data-ng-click="cancelE()">Cancel</button>
+                                                    </div>
+                                                </div>                                      
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /tab-content -->
+                        </div>
+                    </div>
+                    <!-- /#page-content-wrapper -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
